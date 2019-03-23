@@ -8,7 +8,7 @@ public class TestArray {
 		int[] arr = {0,9,0,4,9};
 		PrimaryAlgorithm a = new PrimaryAlgorithm();
 		//System.out.println(Integer.MAX_VALUE);2147483647
-		System.out.println(a.isPalindrome("0P"));
+		
 		
 	}
 	void printArray(int[] arr) {

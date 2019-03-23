@@ -260,9 +260,32 @@ public class PrimaryAlgorithm {
        * */
        public int strStr(String haystack, String needle) {
     	   if(needle.equals(""))
-    		   return 0;
-    	   
+    		   return 0; 
+    	   if(needle.length() > haystack.length())
+    		   return -1;
+    	   int[] next = new int[needle.length()];
+    	   next[0] =-1;
+    	   int k=-1;
+    	   for(int a=0;a<needle.length()-1;) {
+    		   if(k == -1 || needle.charAt(a) == needle.charAt(k)) {
+    			   next[++a] =++k;
+    		   }else {
+    			   k = next[k];
+    		   }
+    	   }
+    	   int i=0,j=0;
+    	   for( ;i < haystack.length() && j < needle.length();) {
+    		   if(j == -1 || haystack.charAt(i) == needle.charAt(j)) {
+    			   i++;j++;
+    		   }else {
+    			
+    			   j = next[j];
+    		   }
+    	   }
+    	   if(j == needle.length())
+    		   return i-needle.length();
     	   return -1;
+    	   
        }
        /*报数序列
         *报数序列是一个整数序列，按照其中的整数的顺序进行报数，得到下一个数。其前五项如下：
@@ -314,7 +337,7 @@ public class PrimaryAlgorithm {
            if (n == 1) {
                return "1";
            }
-           String preData = countAndSay(n - 1);
+           String preData = countAndSayImprove(n - 1);
 
            char[] arr = preData.toCharArray();
 
@@ -335,5 +358,74 @@ public class PrimaryAlgorithm {
            sb.append(charCount).append(preChar);
 
            return sb.toString();
+       }
+       /*最长公共前缀
+        *编写一个函数来查找字符串数组中的最长公共前缀。
+        *如果不存在公共前缀，返回空字符串 ""。
+        *输入: ["flower","flow","flight"]
+        *输出: "fl" 
+        * */
+       public String longestCommonPrefix(String[] strs) {
+           int length = strs.length;
+           if(length == 1)
+               return strs[0];
+           int index = 0;
+           for(int i=1;i<length;) {
+        	   if(index > strs[i].length()-1 || index > strs[0].length()-1||  (strs[i].charAt(index) != strs[i-1].charAt(index))) {
+        			break;
+        	   }
+               ++i;
+        	   if(i == length) {
+        		   i=1;
+        		   index++;
+        	   }
+           }
+           if(index == 0)
+        	   return "";
+           return strs[0].substring(0, index);
+       }
+       public String longestCommonPrefixImprove(String[] strs) {
+           if (strs.length == 0) {
+   			return "";
+   		} else if (strs.length == 1) {
+   			return strs[0];
+   		}
+
+   		int min = strs[0].length();
+   		String minStr = "";
+   		for (String str : strs) {
+   			if (str.length() <= min) {
+   				min = str.length();
+   				minStr = str;
+   			}
+   		}
+
+   		for (int size = min; size >= 1; size--) {
+   			for (int j = 0; j + size-1 <= min - 1; j++) {
+   				String sub = minStr.substring(j, j + size);
+   				boolean isFind = true;
+   				for (String s : strs) {
+   					if (s.indexOf(String.valueOf(sub)) != 0) {
+   						isFind = false;
+   					}
+   				}
+   				if (isFind) {
+   					return sub;
+   				}
+   			}
+   		}
+
+   		boolean isFind = true;
+   		for (char s : minStr.toCharArray()) {
+   			for (String str : strs) {
+   				if (str.indexOf(String.valueOf(s)) != 0) {
+   					isFind = false;
+   				}
+   			}
+   			if (isFind) {
+   				return String.valueOf(s);
+   			}
+   		}
+   		return "";
        }
 }

@@ -7,8 +7,8 @@ public class TestArray {
 	public void testSampleOne() {
 		int[] arr = {0,9,0,4,9};
 		PrimaryAlgorithm a = new PrimaryAlgorithm();
-		
-		printArray(a.twoSumImprovePlus(arr,13));
+		//System.out.println(Integer.MAX_VALUE);2147483647
+		System.out.println(a.isPalindrome("0P"));
 		
 	}
 	void printArray(int[] arr) {

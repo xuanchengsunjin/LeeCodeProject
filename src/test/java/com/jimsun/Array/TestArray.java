@@ -2,11 +2,15 @@ package com.jimsun.Array;
 
 import org.junit.Test;
 
+import com.jimsun.String.PrimaryAlgorithm;
+
 public class TestArray {
 	@Test
 	public void testSampleOne() {
 		int[] arr = {0,9,0,4,9};
-		PrimaryAlgorithm a = new PrimaryAlgorithm();
+		//PrimaryAlgorithm a = new PrimaryAlgorithm();
+		PrimaryAlgorithm b = new PrimaryAlgorithm();
+		System.out.println(b.countAndSay(6));
 		//System.out.println(Integer.MAX_VALUE);2147483647
 		
 		

@@ -1,6 +1,9 @@
 package com.jimsun.String;
 
+
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -195,6 +198,142 @@ public class PrimaryAlgorithm {
      *在任何情况下，若函数不能进行有效的转换时，请返回 0。
      * */
      public int myAtoi(String str) {
-        
+    	 int num=0;
+         int flag=0;
+         for(int i = 0;i< str.length();i++) {
+         	int number = str.charAt(i)-48;
+         	if(flag > 0) {
+         		if(number>=0 && number<=9) {
+         			if(flag ==1 && (num >Integer.MAX_VALUE/10 || (num == Integer.MAX_VALUE/10 && number >= 7))){
+         				return Integer.MAX_VALUE;
+         			}else if(flag ==2 && (num >Integer.MAX_VALUE/10 || (num == Integer.MAX_VALUE/10 && number >= 8))) {
+         				return Integer.MIN_VALUE;
+         			}
+         			num = num*10 +number;
+         		}else {
+         			if(num == 0)
+         				return 0;
+         			else
+         				break;
+         		}
+         	}else {
+         		if(number == -3)
+         			flag = 2;
+                 else if(number == -5)
+                     flag=1;
+         		else if(number>=0 && number<=9) {
+         			num = number;
+         			flag =1;
+         		}else if(number == -16) {}	
+         		else {
+         			return 0;
+         		}
+         	}
+         }
+         if(flag == 2)
+         	num = -num;
+         return num;
      }
+     public int myAtoiImprove(String str) {
+         str=str.trim();
+         if (str.isEmpty()) return 0; 
+         int sign = 1;
+         int base = 0;
+         int i = 0;
+         if(str.charAt(i)=='-'||str.charAt(i)=='+'){
+             sign = str.charAt(i++)=='-'? -1:1;
+         }
+         while(i < str.length()&&str.charAt(i) <='9'&&str.charAt(i)>='0' ){
+             if(base > Integer.MAX_VALUE/10||(base == Integer.MAX_VALUE/10 &&(str.charAt(i)-'0'>7))){
+                 return (sign==1)? Integer.MAX_VALUE: Integer.MIN_VALUE;
+             }
+             base = base*10+(str.charAt(i++)-'0');
+         }
+         return base*sign;
+      }
+      /*
+       *实现 strStr() 函数。
+       *给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。
+       *如果不存在，则返回  -1。
+       *输入: haystack = "hello", needle = "ll"
+       *输出: 2
+       * */
+       public int strStr(String haystack, String needle) {
+    	   if(needle.equals(""))
+    		   return 0;
+    	   
+    	   return -1;
+       }
+       /*报数序列
+        *报数序列是一个整数序列，按照其中的整数的顺序进行报数，得到下一个数。其前五项如下：
+        *1.     1
+        *2.     11
+        *3.     21
+        *4.     1211
+        * 5.     111221
+        * */
+       public String countAndSay(int n) {
+         Queue<Integer> que = new LinkedList<Integer>();
+         que.add(1);
+         int length = 1;
+         int newLength = 0;
+         while(--n>0) {	
+        	 int num=1;
+        	 int temp=que.poll();
+        	 --length;
+        	 while(length-->0) {
+        		 int number = que.poll();
+        		 if(number == temp) {
+        			 num++;
+        		 }else {
+        			 que.add(num);
+        			 que.add(temp);
+        			 temp = number;
+        			 num=1;
+        			 newLength +=2;
+        		 }
+        	 }
+        	 if(num != 0) {
+        		 que.add(num);
+    			 que.add(temp);
+    			 newLength +=2;
+        	 }
+        	 length = newLength;
+        	 newLength = 0;
+         }
+         String a ="";
+         while(!que.isEmpty()) {
+        	 a += que.poll();
+         }
+         return a;
+       }
+       public String countAndSayImprove(int n) {
+           if (n < 1) {
+               throw new IllegalArgumentException();
+           }
+           if (n == 1) {
+               return "1";
+           }
+           String preData = countAndSay(n - 1);
+
+           char[] arr = preData.toCharArray();
+
+           char preChar = arr[0];
+           int charCount = 1;
+
+           StringBuilder sb = new StringBuilder();
+
+           for (int i = 1; i < arr.length; i++) {
+               if (arr[i] == preChar) {
+                   charCount++;
+               } else {
+                   sb.append(charCount).append(preChar);
+                   preChar = arr[i];
+                   charCount = 1;
+               }
+           }
+           sb.append(charCount).append(preChar);
+
+           return sb.toString();
+       }
 }

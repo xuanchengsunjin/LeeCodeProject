@@ -9,6 +9,7 @@ public class TestArray {
 		PrimaryAlgorithm a = new PrimaryAlgorithm();
 		
 		printArray(a.twoSumImprovePlus(arr,13));
+		
 	}
 	void printArray(int[] arr) {
 		System.out.println("打印数组如下：");

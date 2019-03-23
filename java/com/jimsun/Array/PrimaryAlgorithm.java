@@ -174,4 +174,68 @@ public class PrimaryAlgorithm {
 			}
 			throw new IllegalArgumentException("No two sum solution");
 	    }
+        /*
+         * 旋转图像
+         * 给定一个 n × n 的二维矩阵表示一个图像。
+         * 将图像顺时针旋转 90 度。
+         * */
+	    public void rotate(int[][] matrix) {
+	        int length = matrix.length-1;
+	        for(int i=0,j=0,k=length,q=length; i<k && j<q; ++i,++j,--k,--q) {
+	        	for(int a = 0;a<k-i;a++) {
+	        		int temp = matrix[i][j+a];
+	        		matrix[i][j+a] = matrix[k-a][j];
+	        		matrix[k-a][j] = matrix[k][q-a];
+	        		matrix[k][q-a] = matrix[i+a][q];
+	        		matrix[i+a][q] = temp;
+	        	}
+	        }
+	    }
+	    public void rotateImprove(int[][] matrix) {
+	        int n = matrix.length;
+	        float translate = (n - 1) / 2.0f;
+	        int last;
+	        int col, row;
+//	        剥洋葱
+	        for (int i = 0; i < n / 2; i++) { // 圈
+	            for (int j = i; j < n - i - 1; j++) { // 边
+	                last = matrix[i][j];
+	                row = i;
+	                col = j;
+	                for (int k = 0; k < 3; k++) { // 点
+//	                    pre_point
+	                    int pre_col = row;
+	                    int pre_row = (int) (2 * translate - col);
+
+	                    matrix[row][col] = matrix[pre_row][pre_col];
+	                    row = pre_row;
+	                    col = pre_col;
+	                }
+	                matrix[row][col] = last;
+	            }
+	        }
+	    }
+	    /*
+	     * 只出现一次的数字
+	     * 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素
+	     * 输入: [2,2,1]
+	     * 输出: 1
+	     * */
+	    public int singleNumber(int[] nums) {
+	        int num = 0;
+	        Arrays.sort(nums);
+	        //所有奇数和减去偶数和,即........(求差法)
+	        for(int i = 0;i<nums.length;i++){
+	            num = i%2 == 0 ? num + nums[i]: num - nums[i];
+	        }
+	       return num;
+	    }
+	    //异或法
+	    public int singleNumberImprove(int[] nums) {
+	    	 int num = 0;
+	         for (int i = 0; i < nums.length; i++) {
+	                 num = num ^ nums[i];
+	         }
+	         return num;
+	    }
 }

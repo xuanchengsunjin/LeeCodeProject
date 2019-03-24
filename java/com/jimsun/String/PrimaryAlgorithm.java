@@ -258,6 +258,11 @@ public class PrimaryAlgorithm {
        *输入: haystack = "hello", needle = "ll"
        *输出: 2
        * */
+       /*
+        *KMP算法：
+        *当P[0 ~ k-1] == P[j-k ~ j-1]时：next[j] = k
+        *满足上述条件同时，当P[k] == P[j]时：next[j+1] == next[j] + 1 == k + 1
+        * */
        public int strStr(String haystack, String needle) {
     	   if(needle.equals(""))
     		   return 0; 
@@ -266,10 +271,12 @@ public class PrimaryAlgorithm {
     	   int[] next = new int[needle.length()];
     	   next[0] =-1;
     	   int k=-1;
+    	   //计算next数组
     	   for(int a=0;a<needle.length()-1;) {
     		   if(k == -1 || needle.charAt(a) == needle.charAt(k)) {
     			   next[++a] =++k;
     		   }else {
+    			   //可以理解为回朔
     			   k = next[k];
     		   }
     	   }

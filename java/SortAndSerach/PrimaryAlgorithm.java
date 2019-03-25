@@ -71,6 +71,7 @@ public class PrimaryAlgorithm {
 	  public int firstBadVersion(int n) {
 		  int low = 1;
 		  int hight = n;
+		  //相对于(hight+ low)/2,前者容易发生溢出
 		  int middle = low + (hight - low)/2;
 		  if(isBadVersion(low))
 			  return low;
@@ -83,18 +84,17 @@ public class PrimaryAlgorithm {
 		  }
 		  return isBadVersion(low) ? low : hight;
 	  }
+	  //改进：更加简洁，效率更加高
 	   public int firstBadVersionImprove(int n) {
 	        int l = 1, r = n;
-	        int ans = 1;
 	        while(l <= r) {
 	            int mid = l+(r-l) / 2;
-	            if (isBadVersion(mid)) {
-	                ans = mid;
+	            if (isBadVersion(mid)) {	               
 	                r = mid -1;
 	            }
 	            else
 	                l = mid + 1;
 	        }
-	        return ans;
+	        return l;
 	    }
 }

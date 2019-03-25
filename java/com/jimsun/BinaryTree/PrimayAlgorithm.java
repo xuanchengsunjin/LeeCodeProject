@@ -81,6 +81,25 @@ public class PrimayAlgorithm {
 			  return false;
 		  return isSymme(left.left,right.right) && isSymme(left.right, right.left);
 	  }
+	  //非递归方式：
+	  public boolean isSymmetricImprove(TreeNode root) {
+		  Stack<TreeNode> stack = new Stack<TreeNode>();
+		  if(root == null)
+			  return true;
+		  stack.push(root.left);
+		  stack.push(root.right);
+		  while(!stack.isEmpty()) {
+			  TreeNode node1 = stack.pop();
+			  TreeNode node2 = stack.pop();
+			  if(node1 == null && node2 == null)
+				  continue;
+			  if(node1 == null || node2 == null || node1.val != node2.val)
+				  return false;
+			  stack.push(node1.right);stack.push(node2.left);
+			  stack.push(node1.left);stack.push(node2.right);
+		  }
+		  return true;
+	  }
 	  /*二叉树层序遍历
 	   *给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。 
 	   * */
@@ -135,5 +154,17 @@ public class PrimayAlgorithm {
 		  head.left = buildTree(arr, start, start + length/2-1);
 		  head.right = buildTree(arr, start + length/2+1, end);
 		  return head;
+	  }
+	  //更加简洁的递归方式
+	  public TreeNode sortedArrayToBSTImprove(int[] nums) {
+	      return build_tree(nums, 0, nums.length);
+	  }
+	  public TreeNode build_tree(int[] nums, int begin, int end){
+	      if(begin == end) return null;
+	      int middle = (begin+end)/2;
+	      TreeNode node = new TreeNode(nums[middle]);
+	      node.left = build_tree(nums, begin, middle);
+	      node.right = build_tree(nums, middle+1, end);
+	      return node;
 	  }
 }

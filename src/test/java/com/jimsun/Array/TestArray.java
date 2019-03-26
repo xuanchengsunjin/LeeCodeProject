@@ -3,10 +3,13 @@ package com.jimsun.Array;
 
 import org.junit.Test;
 
+import com.jimsun.MathProblem.PrimaryAlgorithm;
+
 public class TestArray {
 	@Test
 	public void testSampleOne() {
-		
+		PrimaryAlgorithm a= new PrimaryAlgorithm();
+		System.out.println(a.romanToInt("MCMXCIV"));
 		
 		
 	}

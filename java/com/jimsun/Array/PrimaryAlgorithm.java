@@ -1,10 +1,12 @@
 package com.jimsun.Array;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -244,6 +246,132 @@ public class PrimaryAlgorithm {
 	                 num = num ^ nums[i];
 	         }
 	         return num;
+	    }
+	    /*两个数组的交集II
+	     *给定两个数组，编写一个函数来计算它们的交集。
+	     *示例 1:
+	     *输入: nums1 = [1,2,2,1], nums2 = [2,2]
+	     *输出: [2,2] 
+	     *说明：
+	     *输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。
+	     *我们可以不考虑输出结果的顺序。
+	     *
+	     *进阶:
+	     *如果给定的数组已经排好序呢？你将如何优化你的算法？
+	     *如果 nums1 的大小比 nums2 小很多，哪种方法更优？
+	     *如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
+	     * */
+	    //排序再比较：循环次数：nums1.length + nums2.length
+	    public int[] intersect(int[] nums1, int[] nums2) {
+	        if(nums1.length == 0 || nums2.length  == 0)
+	            return nums1.length == 0 ? nums1 :nums2;
+		    Arrays.sort(nums1);
+		    Arrays.sort(nums2);
+		    List<Integer> list = new ArrayList<Integer>();
+		    int length = 0;
+		 
+		    for(int i = 0,j = 0;i<nums1.length && j<nums2.length;) {
+		    	if(nums1[i] < nums2[j])
+		    		++i;
+		    	else if(nums1[i] > nums2[j])
+		    		++j;
+		    	else {
+		    		list.add(nums1[i]);
+		    	    ++length;
+		    	    ++i;
+		    	    ++j;
+		    	}
+		    }
+		    int[] a = new int[length];
+		    int index=-1;
+		    while(++index<length) {
+		        a[index] = list.get(index);
+		    }
+		    return a;
+	    }
+	    public int[] intersectImprove(int[] nums1, int[] nums2) {
+	        if (nums1.length > nums2.length) {
+	            return intersect(nums2, nums1);
+	        }
+	        Arrays.sort(nums1);
+	        Arrays.sort(nums2);
+	        int nums[] = new int[nums1.length];
+	        int len = 0;
+	        for (int i = 0, j = 0; i < nums1.length && j < nums2.length; ) {
+	            if (nums1[i] == nums2[j]) {
+	                nums[len++] = nums1[i];
+	                ++i;
+	                ++j;
+	            } else if (nums1[i] < nums2[j]) {
+	                i++;
+	            } else {
+	                j++;
+	            }
+	        }
+	        int num[] = new int[len];
+	        System.arraycopy(nums, 0, num, 0, len);
+	        return num;
+	    }
+	    //使用map:
+	    public int[] intersectMap(int[] nums1, int[] nums2) {
+	        Map<Integer, Integer> map1 = new HashMap<Integer, Integer>();
+	        for (Integer num : nums1)
+	            if (map1.containsKey(num))
+	                 map1.replace(num, map1.get(num) + 1);
+	            else
+	            map1.put(num, 1);
+
+	        ArrayList<Integer> intersection = new ArrayList<Integer>(16);
+	        for (Integer num : nums2) {
+	             if (map1.containsKey(num) && map1.get(num) > 0) {
+	                  intersection.add(num);
+	              map1.replace(num, map1.get(num) - 1);
+	              }
+	        }
+
+	        int[] ret = new int[intersection.size()];
+	        for (int i = 0; i < intersection.size(); i++)
+	            ret[i] = intersection.get(i);
+	        return ret;
+	    }
+	    //暴力：
+	    public int[] intersectViolent(int[] nums1, int[] nums2) {
+	        int numllength =  nums1.length;
+	        int num2length =  nums2.length;
+	        int num3length =numllength>num2length?num2length:numllength;
+	        num3length = 0;
+	        int[] tmp1 =null;
+	        int[] tmp2 =null;
+	        if(numllength>num2length){
+	            tmp1=nums2;
+	            tmp2=nums1;
+	        }else{
+	             tmp1=nums1;
+	            tmp2=nums2;
+	        };
+	       for(int i=0; i<tmp1.length;i++){
+	           for(int y=num3length; y<tmp2.length;y++){
+	               if(tmp1[i]==tmp2[y]){
+	                   int tmp3 =tmp2[num3length];
+	                   tmp2[num3length]=tmp2[y];
+	                   tmp2[y]=tmp3;
+	                   num3length++;
+	                   break;
+	               }    
+	           }
+	           
+	       }
+	        
+	       int[] num4 = new int[num3length];
+	        for(int i =0 ; i<num3length;i++){
+	            num4[i]=tmp2[i];
+	        }
+	        
+	        
+	        return num4;
+	        
+	        
+	        
 	    }
 	    
 }

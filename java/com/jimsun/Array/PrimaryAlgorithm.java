@@ -365,13 +365,8 @@ public class PrimaryAlgorithm {
 	       int[] num4 = new int[num3length];
 	        for(int i =0 ; i<num3length;i++){
 	            num4[i]=tmp2[i];
-	        }
-	        
-	        
-	        return num4;
-	        
-	        
-	        
+	        }	        
+	        return num4;	        
 	    }
 	    
 }

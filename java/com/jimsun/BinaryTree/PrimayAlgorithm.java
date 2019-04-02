@@ -239,4 +239,52 @@ public class PrimayAlgorithm {
 		  }
 		  return list;
 	  }
+	  /*从中序与后序遍历序列构造二叉树
+	   *根据一棵树的中序遍历与后序遍历构造二叉树。
+	   *注意:
+	   *你可以假设树中没有重复的元素。
+	   *
+	   *例如，给出
+	   *中序遍历 inorder = [9,3,15,20,7]
+	   *后序遍历 postorder = [9,15,7,20,3] 
+	   * */
+	  public TreeNode buildTree(int[] inorder, int[] postorder) {
+	       TreeNode root = null;
+	       int inLength = inorder.length;
+	       int postLength = postorder.length;
+           if(inLength ==0 || postLength == 0)
+              return root;
+	       root =bulidNode(inorder,0,inLength-1 ,postorder,0,postLength-1); 
+	       return root;
+	  }
+	  public TreeNode bulidNode(int[] inorder,int start1,int end1 ,int[] postorder,int start2,int end2) {
+		  TreeNode node = new TreeNode(postorder[end2]);       
+		  int rootIndex =  getRootIndex(inorder,postorder[end2]);
+		  int leftLength = rootIndex - start1;
+		  int rightLength = end1 - rootIndex;
+          TreeNode left = null;
+          TreeNode right = null;
+          if(leftLength == 1)
+              left = new TreeNode(postorder[start2]);
+          else if(leftLength > 1)
+		      left=bulidNode(inorder,start1,rootIndex-1,postorder,start2,start2+leftLength-1);
+          else{}
+         
+          if(rightLength == 1)
+              right = new TreeNode(postorder[end2-1]);
+          else if(rightLength > 1)
+		      right=bulidNode(inorder,rootIndex+1,end1,postorder,start2+leftLength,end2-1);
+          else{}
+         
+          node.left = left;
+		  node.right = right;
+		  return node;
+	  }
+	  public int getRootIndex(int[] arr,int root) {
+		  for(int i=0;i<arr.length;i++) {
+			  if(arr[i] == root)
+				  return i;
+		  }
+		  return 0;
+	  }
 }

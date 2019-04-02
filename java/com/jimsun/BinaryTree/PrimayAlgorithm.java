@@ -1,5 +1,6 @@
 package com.jimsun.BinaryTree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -178,4 +179,64 @@ public class PrimayAlgorithm {
 	          return true; 
 	      return hasPathSum(root.left,sum-root.val) || hasPathSum(root.right,sum-root.val);
 	    }
+	  /*二叉树非递归方式遍历
+	   *前序遍历 && 中序遍历　&& 后序遍历
+	   * */
+	  //前序遍历
+	  public List<Integer> preorderTraversal(TreeNode root) {
+		  List<Integer> list = new LinkedList<Integer>();
+		  if(root == null)
+			  return list;  
+		  Stack<TreeNode> stack = new Stack<TreeNode>();
+		  stack.push(root);
+		  TreeNode node = null;
+		  while(!stack.isEmpty()) {
+			  node = stack.pop();
+			  list.add(node.val);
+			  if(node.right != null)
+				  stack.push(node.right);
+			  if(node.left != null)
+				  stack.push(node.left);
+		  }	  
+		  return list;
+	  }
+	  //中序遍历
+	  public List<Integer> inorderTraversal(TreeNode root) {
+		  List<Integer> list = new LinkedList<Integer>();
+		  if(root == null)
+			  return list;
+		  Stack<TreeNode> stack = new Stack<TreeNode>();
+		  while(!stack.isEmpty() || root != null) {
+			  if(root != null) {
+				 stack.push(root);
+				 root = root.left;
+			  }else {
+				  root = stack.pop();
+				  list.add(root.val);
+				  root = root.right;
+			  }
+		  }
+		  return list;
+	  }
+	  //后序遍历
+	  public List<Integer> postorderTraversal(TreeNode root) {
+		  List<Integer> list = new LinkedList<Integer>();
+		  if(root == null)
+			  return list;
+		  Stack<TreeNode> s1 = new Stack<TreeNode>();
+		  Stack<TreeNode> s2 = new Stack<TreeNode>();
+		  s1.push(root);
+		  while(!s1.isEmpty()) {
+			  root = s1.pop();
+			  s2.push(root);
+			  if(root.left != null)
+				  s1.push(root.left);
+			  if(root.right != null)
+				  s1.push(root.right);
+		  }
+		  while(!s2.isEmpty()) {
+			  list.add(s2.pop().val);
+		  }
+		  return list;
+	  }
 }

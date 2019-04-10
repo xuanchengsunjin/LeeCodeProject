@@ -52,6 +52,10 @@ public class SecondaryAlgorithm {
 				que.removeLast();
 			}
 			que.addLast(j);
+			/*
+			while(!que.isEmpty() && que.getFirst() <= j-k) {
+				que.removeFirst();
+			}*/
 			if(j >= k-1)
 				arr[i++] = nums[que.getFirst()];
 		}
